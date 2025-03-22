@@ -1,0 +1,51 @@
+hotmail:
+  title_prefix: "Hotmail:"
+  url: "https://login.live.com"
+  fields:
+    - name: username
+      type: text
+      required: true
+    - name: password
+      type: password
+      required: true
+    - name: otp
+      type: otp
+      required: false
+    - name: refresh_token
+      type: text
+      required: false
+    - name: client_id
+      type: text
+      required: false
+  parser:
+    delimiter: "|"
+    mapping:
+      username: 0
+      password: 1
+      refresh_token: 2
+      client_id: 3
+      otp: 4
+
+gmail:
+  title_prefix: "Google:"
+  url: "https://google.com"
+  fields:
+    - name: username
+      type: text
+      required: true
+    - name: password
+      type: password
+      required: true
+    - name: recovery_email
+      type: text
+      required: false
+    - name: otp
+      type: otp
+      required: false
+  parser:
+    delimiter: ","
+    mapping:
+      username: 0
+      password: 1
+      recovery_email: 2
+      otp: 3 
