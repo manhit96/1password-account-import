@@ -42,6 +42,8 @@ Thumbs.db
 
 # Project specific
 input/*
-output/*
 !input/.gitkeep
+output/*
 !output/.gitkeep 
+temp/*
+!temp/.gitkeep

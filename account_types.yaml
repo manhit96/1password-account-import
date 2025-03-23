@@ -1,51 +1,100 @@
+# Cấu hình các loại tài khoản
 hotmail:
+  category: "login"
   title_prefix: "Hotmail:"
-  url: "https://login.live.com"
+  url: "https://outlook.live.com"
+  format: "username|password|refresh_token|client_id"
+  delimiter: "|"
   fields:
     - name: username
-      type: text
+      type: email
       required: true
     - name: password
       type: password
       required: true
-    - name: otp
-      type: otp
-      required: false
     - name: refresh_token
       type: text
       required: false
     - name: client_id
       type: text
       required: false
-  parser:
-    delimiter: "|"
-    mapping:
-      username: 0
-      password: 1
-      refresh_token: 2
-      client_id: 3
-      otp: 4
 
 gmail:
-  title_prefix: "Google:"
-  url: "https://google.com"
+  category: "login"
+  title_prefix: "Gmail:"
+  url: "https://accounts.google.com"
+  format: "username|password|otp"
+  delimiter: "|"
   fields:
     - name: username
-      type: text
+      type: email
       required: true
     - name: password
       type: password
       required: true
-    - name: recovery_email
-      type: text
-      required: false
     - name: otp
       type: otp
       required: false
-  parser:
-    delimiter: ","
-    mapping:
-      username: 0
-      password: 1
-      recovery_email: 2
-      otp: 3 
+
+credit_card:
+  category: "credit-card"
+  title_prefix: "Thẻ tín dụng:"
+  format: "cardholder_name|card_number|card_type|expiry|cvv"
+  delimiter: "|"
+  fields:
+    - name: cardholder_name
+      type: text
+      required: true
+    - name: card_number
+      type: credit-card-number
+      required: true
+    - name: card_type
+      type: credit-card-type
+      required: true
+    - name: expiry
+      type: credit-card-expiry
+      required: true
+    - name: cvv
+      type: credit-card-cvv
+      required: true
+
+bank_account:
+  category: "bank-account"
+  title_prefix: "Tài khoản ngân hàng:"
+  format: "account_name|account_number|routing_number|account_type"
+  delimiter: "|"
+  fields:
+    - name: account_name
+      type: text
+      required: true
+    - name: account_number
+      type: bank-account-number
+      required: true
+    - name: routing_number
+      type: bank-account-routing
+      required: true
+    - name: account_type
+      type: bank-account-type
+      required: true
+
+identity:
+  category: "identity"
+  title_prefix: "Thông tin cá nhân:"
+  format: "full_name|date_of_birth|address|phone|email"
+  delimiter: "|"
+  fields:
+    - name: full_name
+      type: text
+      required: true
+    - name: date_of_birth
+      type: date
+      required: true
+    - name: address
+      type: address
+      required: true
+    - name: phone
+      type: phone
+      required: true
+    - name: email
+      type: email
+      required: true 

@@ -97,31 +97,54 @@ setup_1password_cli() {
 setup_venv() {
     print_status "Thiết lập môi trường ảo..."
     
-    # Tạo môi trường ảo nếu chưa tồn tại
-    if [ ! -d "venv" ]; then
-        python3 -m venv venv
-        print_success "Đã tạo môi trường ảo"
-    else
-        print_success "Môi trường ảo đã tồn tại"
+    # Kiểm tra Python version
+    python3 --version >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "❌ Python 3 chưa được cài đặt"
+        echo "Vui lòng cài đặt Python 3 từ https://www.python.org/downloads/"
+        exit 1
+    fi
+
+    # Kiểm tra pip
+    pip3 --version >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "❌ pip chưa được cài đặt"
+        echo "Vui lòng cài đặt pip từ https://pip.pypa.io/en/stable/installation/"
+        exit 1
+    fi
+
+    # Tạo môi trường ảo
+    echo "🔧 Đang tạo môi trường ảo..."
+    python3 -m venv venv
+
+    # Kích hoạt môi trường ảo
+    echo "🔧 Đang kích hoạt môi trường ảo..."
+    source venv/bin/activate
+
+    # Cài đặt các thư viện cần thiết
+    echo "📦 Đang cài đặt các thư viện cần thiết..."
+    pip install -r requirements.txt
+
+    # Tạo thư mục input và output nếu chưa tồn tại
+    echo "📁 Đang tạo thư mục input và output..."
+    mkdir -p input output
+
+    # Kiểm tra file cấu hình
+    if [ ! -f "account_types.yaml" ]; then
+        print_error "Không tìm thấy file account_types.yaml"
+        exit 1
     fi
     
-    # Kích hoạt môi trường ảo
-    source venv/bin/activate
-    
-    # Cài đặt các thư viện cần thiết
-    print_status "Cài đặt các thư viện Python..."
-    pip install --upgrade pip
-    pip install pyyaml
-    print_success "Đã cài đặt các thư viện cần thiết"
+    # Kiểm tra script chính
+    if [ ! -f "account_import.py" ]; then
+        print_error "Không tìm thấy file account_import.py"
+        exit 1
+    fi
 }
 
 # Tạo cấu trúc thư mục
 setup_directories() {
     print_status "Tạo cấu trúc thư mục..."
-    
-    # Tạo thư mục input và output nếu chưa tồn tại
-    mkdir -p input output
-    print_success "Đã tạo thư mục input và output"
     
     # Kiểm tra file cấu hình
     if [ ! -f "account_types.yaml" ]; then
